@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 
 function Alert({ variant, msg }) {
-  const bgClass = `alert-${variant}`;
-
+  const styles = {warning: `alert-warning`};
+  
   return (
-    <div className={`alert shadow-lg ${bgClass}`}>
+    <div className={`alert shadow-lg ${styles.warning}`}>
       <div>
         {variant === "warning" && (
           <svg

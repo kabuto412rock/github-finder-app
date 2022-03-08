@@ -4,11 +4,10 @@ import { FaCodepen, FaStore, FaUserFriends, FaUsers } from "react-icons/fa";
 import GithubContext from "../context/github/GithubContext";
 import Spinner from "../components/layout/Spinner";
 import RepoList from "../components/repos/RepoList";
-
+import { getUserAndRepos } from "../context/github/GithubActions";
 function User() {
   const githubContext = useContext(GithubContext);
   const {
-    getUser,
     loading,
     user: {
       hireable,
@@ -27,14 +26,20 @@ function User() {
       name,
     },
     repos,
-    getUserRepos,
+    dispatch,
   } = githubContext;
   const params = useParams();
 
   useEffect(() => {
-    getUser(params.login);  
-    getUserRepos(params.login);
-  }, []);
+    const getUserData = async () => {
+      dispatch({ type: "SET_LOADING" });
+
+      const user = await getUserAndRepos(params.login);
+      dispatch({ type: "GET_USER_AND_REPOS", payload: user });
+    };
+
+    getUserData();
+  }, [dispatch, params.login]);
 
   if (loading) {
     return <Spinner />;
@@ -177,7 +182,7 @@ function User() {
             </div>
           </div>
         </div>
-        <RepoList repos={repos}/>
+        <RepoList repos={repos} />
       </div>
     </>
   );

@@ -5,7 +5,7 @@ import Alert from "../layout/Alert";
 import { searchUsers } from "../../context/github/GithubActions";
 function UserSearch() {
   const [text, setText] = useState("");
-  const { users, dispatch, clearUsers } = useContext(GithubContext);
+  const { users, dispatch } = useContext(GithubContext);
   const { alert, setAlert } = useContext(AlertContext);
 
   const handleChange = (e) => setText(e.target.value);
@@ -25,7 +25,7 @@ function UserSearch() {
   };
 
   const handleClear = (e) => {
-    clearUsers();
+    dispatch({ type: "CLEAR_USERS" });
   };
 
   return (
